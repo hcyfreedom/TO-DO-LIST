@@ -1,0 +1,61 @@
+body,html {
+    font-family: '微软雅黑';
+    /*background-color: blue;*/
+}
+#app{
+    width: 600px;
+    margin: 100px auto;
+    position: relative;
+}
+.headerSe{
+    text-align: left;
+    width: 30%;
+    margin-left: 35%;
+}
+.itemPanel{
+    width: 100%;
+    border: 2px solid #222;
+    border-radius: 5px;
+    margin-bottom: 100px;
+    margin-top: 50px;
+}
+.itemTd{
+    width: 40%;
+    line-height: 1.5em;
+    text-align: center;
+}
+.itemBtn{
+    width: 5em;
+    font-size: 80%;
+    color: #14ae92;
+    display: inline-block;
+}
+.tempEmpty{
+    line-height: 1.5em;
+    background: #dcdcdc;
+}
+.addForm label{
+    text-align: center;
+}
+.addForm textarea{
+    width: 350px;
+    height: 90px;
+    margin: 0 auto 10px auto;
+    display: block;
+    border-color: #222222;
+}
+.addForm button{
+    padding: 3px 20px;
+    background-color: #14ae92;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    margin: 5px auto;
+    display: block;
+}
+.tips{
+    display: none;
+    color: #708090;
+    margin: 0 auto;
+    text-align: center;
+}
