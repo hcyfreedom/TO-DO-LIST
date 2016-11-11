@@ -26,18 +26,33 @@ class App extends React.Component{
     }
 
     //回调函数，新增事项
-    addTASKItem(item){
+    addListItem(item){
         this.setState({
-            list:this.state.list.addEventListener(item)
+            list:this.state.list.addListItem(item)
         });
     }
-    render(){
+
+    //搜索
+    searchList(word){
+        this.setState({
+            list:this.state.list.searchList(word)
+        })
+    }
+
+    // 删
+    removeListItem(key){
+        this.setState({
+            list:this.state.list.removeListItem(key)
+        });
+    }
+
+   render(){
         return(
             <div>
-                <ToHeader/>
+                <ToHeader searchList={this.searchList.bind(this)}/>
                 {/*<ToItemPanel items={rawData}/>*/}
-                <ToItemPanel items={this.state.list.list}/>
-                <ToAdd addTASKItem={this.addTASKItem.bind(this)}/>
+                <ToItemPanel items={this.state.list.list} removeListItem={this.removeListItem.bind(this)}/>
+                <ToAdd addListItem={this.addListItem.bind(this)}/>
                 {/*<ToDidDelete/>*/}
                 {/*<ToDidComplete/>*/}
             </div>

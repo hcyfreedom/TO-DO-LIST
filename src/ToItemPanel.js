@@ -10,7 +10,7 @@ export default class ToItemPanel extends React.Component{
             items.push(<tr><th colSpan="5" className="tempEmpty">暂无待办事项</th></tr>)
         }else {
             this.props.items.forEach(item=>{
-                items.push(<ToItem item={item}/> )
+                items.push(<ToItem key={item.key} item={item} removeListItem={this.props.removeListItem}/> )
             })
         }
 

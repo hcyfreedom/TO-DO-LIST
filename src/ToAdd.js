@@ -21,9 +21,18 @@ export default class ToAdd extends React.Component{
             return;
         }
 
+        this.props.addListItem(item);//这一行代码，就是调用了ManageSystem通过prop属性传入的回调函数
+        addForm.reset();//把表单元素重置为默认值
+
+
+        //提交成功
+        let tips = ReactDOM.findDOMNode(this.refs.tips);
+        tips.style.display = 'block';
+        setTimeout(function () {
+            tips.style.display = 'none';
+        },1000);
+
     }
-
-
 
 
 

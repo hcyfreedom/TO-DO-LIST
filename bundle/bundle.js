@@ -112,10 +112,30 @@
 
 
 	    _createClass(App, [{
-	        key: 'addTASKItem',
-	        value: function addTASKItem(item) {
+	        key: 'addListItem',
+	        value: function addListItem(item) {
 	            this.setState({
-	                list: this.state.list.addEventListener(item)
+	                list: this.state.list.addListItem(item)
+	            });
+	        }
+
+	        //搜索
+
+	    }, {
+	        key: 'searchList',
+	        value: function searchList(word) {
+	            this.setState({
+	                list: this.state.list.searchList(word)
+	            });
+	        }
+
+	        // 删
+
+	    }, {
+	        key: 'removeListItem',
+	        value: function removeListItem(key) {
+	            this.setState({
+	                list: this.state.list.removeListItem(key)
 	            });
 	        }
 	    }, {
@@ -124,9 +144,9 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_ToHeader2.default, null),
-	                _react2.default.createElement(_ToItemPanel2.default, { items: this.state.list.list }),
-	                _react2.default.createElement(_ToAdd2.default, { addTASKItem: this.addTASKItem.bind(this) })
+	                _react2.default.createElement(_ToHeader2.default, { searchList: this.searchList.bind(this) }),
+	                _react2.default.createElement(_ToItemPanel2.default, { items: this.state.list.list, removeListItem: this.removeListItem.bind(this) }),
+	                _react2.default.createElement(_ToAdd2.default, { addListItem: this.addListItem.bind(this) })
 	            );
 	        }
 	    }]);
@@ -21519,6 +21539,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(34);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21541,6 +21565,16 @@
 	    }
 
 	    _createClass(ToHeader, [{
+	        key: 'handlerSearch',
+
+
+	        //搜索
+	        value: function handlerSearch() {
+	            var bar = _reactDom2.default.findDOMNode(this.refs.searchBar);
+	            var value = bar.value;
+	            this.props.searchList(value);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -21551,7 +21585,7 @@
 	                    { style: { 'textAlign': 'center' } },
 	                    'TO-DO-LIST'
 	                ),
-	                _react2.default.createElement('input', { className: 'headerSe', type: 'text', placeholder: 'Search...' })
+	                _react2.default.createElement('input', { ref: 'searchBar', onChange: this.handlerSearch.bind(this), className: 'headerSe', type: 'text', placeholder: 'Search...' })
 	            );
 	        }
 	    }]);
@@ -21604,6 +21638,8 @@
 	    _createClass(ToItemPanel, [{
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
 	            var items = [];
 	            if (this.props.items.length == 0) {
 	                items.push(_react2.default.createElement(
@@ -21617,7 +21653,7 @@
 	                ));
 	            } else {
 	                this.props.items.forEach(function (item) {
-	                    items.push(_react2.default.createElement(_ToItem2.default, { item: item }));
+	                    items.push(_react2.default.createElement(_ToItem2.default, { key: item.key, item: item, removeListItem: _this2.props.removeListItem }));
 	                });
 	            }
 
@@ -21693,6 +21729,14 @@
 	    }
 
 	    _createClass(ToItem, [{
+	        key: 'handlerDelete',
+
+
+	        //delete
+	        value: function handlerDelete(evt) {
+	            this.props.removeListItem(this.props.item.key);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -21708,7 +21752,7 @@
 	                    { className: 'itemTd' },
 	                    _react2.default.createElement(
 	                        'a',
-	                        { className: 'itemBtn' },
+	                        { className: 'itemBtn', onClick: this.handlerDelete.bind(this) },
 	                        '\u5220\u9664'
 	                    ),
 	                    _react2.default.createElement(
@@ -21794,6 +21838,17 @@
 
 	                if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 	            }
+
+	            this.props.addListItem(item); //这一行代码，就是调用了ManageSystem通过prop属性传入的回调函数
+	            addForm.reset(); //把表单元素重置为默认值
+
+
+	            //提交成功
+	            var tips = _reactDom2.default.findDOMNode(this.refs.tips);
+	            tips.style.display = 'block';
+	            setTimeout(function () {
+	                tips.style.display = 'none';
+	            }, 1000);
 	        }
 	    }, {
 	        key: 'render',
@@ -21866,32 +21921,60 @@
 	/**
 	 * Created by Acer on 2016/11/10.
 	 */
-	var todoItem = function todoItem(item) {
-	    _classCallCheck(this, todoItem);
+	var listItem = function listItem(item) {
+	    _classCallCheck(this, listItem);
 
 	    this.info = {};
 	    this.info.descrip = item.descrip || '';
-	    this.key = ++todoItem.key;
+	    this.key = ++listItem.key;
 	};
 
-	todoItem.key = 0;
+	listItem.key = 0;
 
 	var TODOLIST = function () {
 	    function TODOLIST() {
 	        _classCallCheck(this, TODOLIST);
 
-	        this.allList = [new todoItem(TODOLIST.rawData[0]), new todoItem(TODOLIST.rawData[1]), new todoItem(TODOLIST.rawData[2]), new todoItem(TODOLIST.rawData[3]), new todoItem(TODOLIST.rawData[4]), new todoItem(TODOLIST.rawData[5]), new todoItem(TODOLIST.rawData[6]), new todoItem(TODOLIST.rawData[7])];
+	        this.allList = [new listItem(TODOLIST.rawData[0]), new listItem(TODOLIST.rawData[1]), new listItem(TODOLIST.rawData[2]), new listItem(TODOLIST.rawData[3]), new listItem(TODOLIST.rawData[4]), new listItem(TODOLIST.rawData[5]), new listItem(TODOLIST.rawData[6]), new listItem(TODOLIST.rawData[7])];
 	        this.list = this.allList;
+	        // this.list = [];
+	        this.word = '';
 	    }
 	    //新增事项！！
 
 
 	    _createClass(TODOLIST, [{
-	        key: 'addTASKItem',
-	        value: function addTASKItem(item) {
-	            var newItem = new todoItem(item);
+	        key: 'addListItem',
+	        value: function addListItem(item) {
+	            var newItem = new listItem(item);
 	            this.allList.push(newItem);
 	            this.list = this.allList;
+	            return this;
+	        }
+
+	        //搜索
+
+	    }, {
+	        key: 'searchList',
+	        value: function searchList(word) {
+	            this.word = word;
+	            this.list = this.allList;
+	            this.list = this.list.filter(function (item) {
+	                return item.info.descrip.indexOf(word) != -1;
+	            });
+	            return this;
+	        }
+
+	        //删除
+
+	    }, {
+	        key: 'removeListItem',
+	        value: function removeListItem(key) {
+	            var newList = this.allList.filter(function (item) {
+	                return item.key != key;
+	            });
+	            this.list = newList;
+	            this.allList = this.list;
 	            return this;
 	        }
 	    }]);
