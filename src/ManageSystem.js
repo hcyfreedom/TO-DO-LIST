@@ -6,8 +6,7 @@ import ReactDOM from 'react-dom';
 import ToHeader from './ToHeader.js';
 import ToItemPanel from './ToItemPanel.js';
 import ToAdd from './ToAdd.js';
-// import ToDidDelete from './ToDidDelete.js';
-// import ToDidComplete from './ToDidComplete.js';
+import ToDidItemPanel from './ToDidItemPanel.js';
 import Todolist from './TODOLIST.js';
 import "../bundle/style.css";
 
@@ -53,9 +52,10 @@ class App extends React.Component{
                 {/*<ToItemPanel items={rawData}/>*/}
                 <ToItemPanel items={this.state.list.list} removeListItem={this.removeListItem.bind(this)}/>
                 <ToAdd addListItem={this.addListItem.bind(this)}/>
-                {/*<ToDidDelete/>*/}
-                {/*<ToDidComplete/>*/}
+                {/*<ToDidItemPanel deletes={}/>*/}
+                {/*<ToDidItemPanel/>*/}
             </div>
+
         )
     }
 }

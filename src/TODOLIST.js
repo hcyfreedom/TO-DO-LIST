@@ -49,10 +49,13 @@ export default class TODOLIST{
         let newList = this.allList.filter(item=>{
             return item.key != key;
         });
+
         this.list = newList;
         this.allList = this.list;
         return this;
     }
+    //完成
+
 
 }
 
