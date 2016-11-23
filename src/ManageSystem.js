@@ -6,8 +6,8 @@ import ReactDOM from 'react-dom';
 import ToHeader from './ToHeader.js';
 import ToItemPanel from './ToItemPanel.js';
 import ToAdd from './ToAdd.js';
-import ToDidItemPanel from './ToDidItemPanel.js';
 import Todolist from './TODOLIST.js';
+import ToDeleted from './ToDeleted';
 import "../bundle/style.css";
 
 // var rawData = [{info:{descrip:'写日记'}},
@@ -52,8 +52,7 @@ class App extends React.Component{
                 {/*<ToItemPanel items={rawData}/>*/}
                 <ToItemPanel items={this.state.list.list} removeListItem={this.removeListItem.bind(this)}/>
                 <ToAdd addListItem={this.addListItem.bind(this)}/>
-                {/*<ToDidItemPanel deletes={}/>*/}
-                {/*<ToDidItemPanel/>*/}
+                <ToDeleted removed={this.state.list.removed} removeListItem={this.removeListItem.bind(this)}/>
             </div>
 
         )

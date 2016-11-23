@@ -25,6 +25,7 @@ export default class TODOLIST{
         this.list = this.allList;
         // this.list = [];
         this.word = '';
+        this.removed = [];
     }
     //新增事项！！
     addListItem(item){
@@ -46,18 +47,26 @@ export default class TODOLIST{
 
     //删除
     removeListItem(key){
+
         let newList = this.allList.filter(item=>{
+            if(item.key == key) {
+                this.removed.push(item);
+            }
             return item.key != key;
         });
+        // console.log(this.removed);
 
         this.list = newList;
         this.allList = this.list;
         return this;
+
     }
-    //完成
 
-
+     
 }
+
+
+
 
 TODOLIST.rawData = [{descrip:'健身房走一趟'},
                     {descrip:'吃饭'},

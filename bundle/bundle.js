@@ -72,8 +72,12 @@
 
 	var _TODOLIST2 = _interopRequireDefault(_TODOLIST);
 
-	__webpack_require__(177);
-		src
+	var _ToDeleted = __webpack_require__(177);
+
+	var _ToDeleted2 = _interopRequireDefault(_ToDeleted);
+
+	__webpack_require__(179);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -83,9 +87,6 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by Acer on 2016/11/10.
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-	// import ToDidDelete from './ToDidDelete.js';
-	// import ToDidComplete from './ToDidComplete.js';
 
 
 	// var rawData = [{info:{descrip:'写日记'}},
@@ -146,7 +147,8 @@
 	                null,
 	                _react2.default.createElement(_ToHeader2.default, { searchList: this.searchList.bind(this) }),
 	                _react2.default.createElement(_ToItemPanel2.default, { items: this.state.list.list, removeListItem: this.removeListItem.bind(this) }),
-	                _react2.default.createElement(_ToAdd2.default, { addListItem: this.addListItem.bind(this) })
+	                _react2.default.createElement(_ToAdd2.default, { addListItem: this.addListItem.bind(this) }),
+	                _react2.default.createElement(_ToDeleted2.default, { removed: this.state.list.removed, removeListItem: this.removeListItem.bind(this) })
 	            );
 	        }
 	    }]);
@@ -21708,6 +21710,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(34);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21736,6 +21742,15 @@
 	        value: function handlerDelete(evt) {
 	            this.props.removeListItem(this.props.item.key);
 	        }
+
+	        //完成
+
+	    }, {
+	        key: 'handlerComplete',
+	        value: function handlerComplete(evt) {
+	            var complete = _reactDom2.default.findDOMNode(this.refs.complete);
+	            complete.style.color = 'red';
+	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
@@ -21744,7 +21759,7 @@
 	                { style: { 'cursor': 'pointer' } },
 	                _react2.default.createElement(
 	                    'td',
-	                    { className: 'itemTd' },
+	                    { className: 'itemTd', ref: 'complete' },
 	                    this.props.item.info.descrip
 	                ),
 	                _react2.default.createElement(
@@ -21757,7 +21772,7 @@
 	                    ),
 	                    _react2.default.createElement(
 	                        'a',
-	                        { className: 'itemBtn' },
+	                        { className: 'itemBtn', onClick: this.handlerComplete.bind(this) },
 	                        '\u5B8C\u6210'
 	                    )
 	                )
@@ -21939,6 +21954,7 @@
 	        this.list = this.allList;
 	        // this.list = [];
 	        this.word = '';
+	        this.removed = [];
 	    }
 	    //新增事项！！
 
@@ -21970,9 +21986,16 @@
 	    }, {
 	        key: 'removeListItem',
 	        value: function removeListItem(key) {
+	            var _this = this;
+
 	            var newList = this.allList.filter(function (item) {
+	                if (item.key == key) {
+	                    _this.removed.push(item);
+	                }
 	                return item.key != key;
 	            });
+	            // console.log(this.removed);
+
 	            this.list = newList;
 	            this.allList = this.list;
 	            return this;
@@ -21991,13 +22014,181 @@
 /* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _deleted = __webpack_require__(178);
+
+	var _deleted2 = _interopRequireDefault(_deleted);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by Acer on 2016/11/18.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var ToDeleted = function (_React$Component) {
+	    _inherits(ToDeleted, _React$Component);
+
+	    function ToDeleted() {
+	        _classCallCheck(this, ToDeleted);
+
+	        return _possibleConstructorReturn(this, (ToDeleted.__proto__ || Object.getPrototypeOf(ToDeleted)).apply(this, arguments));
+	    }
+
+	    _createClass(ToDeleted, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+
+	            var removed = [];
+	            if (this.props.removed.length == 0) {
+	                removed.push(_react2.default.createElement(
+	                    'tr',
+	                    null,
+	                    _react2.default.createElement(
+	                        'th',
+	                        { colSpan: '5', className: 'tempEmpty' },
+	                        '\u6682\u65E0\u5DF2\u5220\u9664\u4E8B\u9879'
+	                    )
+	                ));
+	            } else {
+	                this.props.removed.forEach(function (item) {
+	                    removed.push(_react2.default.createElement(_deleted2.default, { key: item.key, item: item, removeListItem: _this2.props.removeListItem }));
+	                });
+	            }
+	            return _react2.default.createElement(
+	                'table',
+	                { className: 'itemPanel' },
+	                _react2.default.createElement(
+	                    'thead',
+	                    null,
+	                    _react2.default.createElement(
+	                        'tr',
+	                        null,
+	                        _react2.default.createElement(
+	                            'th',
+	                            { className: 'itemTd' },
+	                            '\u5DF2\u5220\u9664'
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'tbody',
+	                    null,
+	                    removed
+	                )
+	            );
+	        }
+	    }]);
+
+	    return ToDeleted;
+	}(_react2.default.Component);
+
+	exports.default = ToDeleted;
+
+/***/ },
+/* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by Acer on 2016/11/18.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var deleted = function (_React$Component) {
+	    _inherits(deleted, _React$Component);
+
+	    function deleted() {
+	        _classCallCheck(this, deleted);
+
+	        return _possibleConstructorReturn(this, (deleted.__proto__ || Object.getPrototypeOf(deleted)).apply(this, arguments));
+	    }
+
+	    _createClass(deleted, [{
+	        key: 'handlerDelete',
+
+
+	        //delete
+	        value: function handlerDelete(evt) {
+	            this.props.removeListItem(this.props.item.key);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'tr',
+	                { style: { 'cursor': 'pointer' } },
+	                _react2.default.createElement(
+	                    'td',
+	                    { className: 'itemTd', ref: 'complete' },
+	                    this.props.item.info.descrip
+	                ),
+	                _react2.default.createElement(
+	                    'td',
+	                    { className: 'itemTd' },
+	                    _react2.default.createElement(
+	                        'a',
+	                        { className: 'itemBtn' },
+	                        '\u6062\u590D'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return deleted;
+	}(_react2.default.Component);
+
+	exports.default = deleted;
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(178);
+	var content = __webpack_require__(180);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(180)(content, {});
+	var update = __webpack_require__(182)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22014,10 +22205,10 @@
 	}
 
 /***/ },
-/* 178 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(179)();
+	exports = module.exports = __webpack_require__(181)();
 	// imports
 
 
@@ -22028,7 +22219,7 @@
 
 
 /***/ },
-/* 179 */
+/* 181 */
 /***/ function(module, exports) {
 
 	/*
@@ -22084,7 +22275,7 @@
 
 
 /***/ },
-/* 180 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
